@@ -1,0 +1,29 @@
+#后端端口
+server:
+  port: 8081
+
+#数据库配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springboot-vue?serverTimezone=GMT%2b8
+    username: root
+    password: 123456
+
+
+#mybatis配置
+mybatis:
+  #  扫描所有mybatis的xml文件
+  mapper-locations: classpath:mapper/*.xml
+#  # mybatis日志 打印sql
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis-plus 日志打印sql
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#文件上传路径
+files:
+  upload:
+    path: D:/重要资料/前端项目/毕业设计/springboot-vue/files/

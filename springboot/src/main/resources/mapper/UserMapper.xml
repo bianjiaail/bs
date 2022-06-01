@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tqq.springboot.mapper.UserMapper">
+
+    <resultMap id="pageUser" type="com.tqq.springboot.entity.User">
+        <result column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="realname" property="realname" />
+        <result column="email" property="email" />
+        <result column="phone" property="phone" />
+        <result column="address" property="address" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="role" property="role" />
+        <collection property="courses" javaType="java.util.ArrayList" ofType="com.tqq.springboot.entity.Course">
+            <result column="teacherCourseName" property="name" />
+            <result column="teacherScore" property="score" />
+        </collection>
+        <collection property="stuCourses" javaType="java.util.ArrayList" ofType="com.tqq.springboot.entity.Course">
+            <result column="stuCourseName" property="name" />
+            <result column="stuScore" property="score" />
+        </collection>
+    </resultMap>
+
+    <select id="findPage" resultMap="pageUser">
+        select user.*, sc.name as stuCourseName, tc.name as teacherCourseName, tc.score as teacherScore,
+        sc.score as stuScore from user
+        left join student_course
+        on user.id = student_course.student_id
+        left join course sc
+        on student_course.course_id = sc.id
+        left join course tc
+        on user.id = tc.teacher_id
+        <where>
+            <if test="username != null and username != ''">
+                and user.username like concat('%', #{username} ,'%')
+            </if>
+            <if test="email != null and email != ''">
+                and user.email like concat('%', #{email} ,'%')
+            </if>
+            <if test="address != null and address != ''">
+                and user.address like concat('%', #{address} ,'%')
+            </if>
+        </where>
+    </select>
+</mapper>
